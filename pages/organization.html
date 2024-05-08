@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Organization Dashboard</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            
+            margin: 0;
+            padding: 0;
+        }
+        header, .container {
+            text-align: center;
+            margin: 20px;
+        }
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .hidden {
+            display: none;
+        }
+        input, select, button {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Registration Section -->
+    <section id="registration" class="container">
+        <h1>Organization Registration</h1>
+        <form id="registrationForm">
+            <input type="text" placeholder="First Name" required>
+            <input type="text" placeholder="Last Name" required>
+            <select required>
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Password" required>
+            <input type="text" placeholder="Contact Number" required>
+            <input type="text" placeholder="Organization Name" required>
+            <input type="text" placeholder="Organization Type" required>
+            <input type="text" placeholder="Address" required>
+            <input type="text" placeholder="Area" required>
+            <input type="text" placeholder="Governorate" required>
+            <input type="file" required>
+            <button type="submit" class="button">Register</button>
+        </form>
+    </section>
+
+    <!-- Donation Post Section (Hidden until login) -->
+    <div id="donationFunctions" class="hidden">
+        <header>
+            <h1>Manage Donation Posts</h1>
+            <button class="button" onclick="showSection('createPost')">Create Donation Post</button>
+            <button class="button" onclick="showSection('viewPosts')">View Donation Details</button>
+        </header>
+
+        <!-- Create Donation Post -->
+        <section id="createPost" class="container hidden">
+            <h2>Create Donation Post</h2>
+            <form>
+                <select required>
+                    <option value="">Select Item Category</option>
+                    <option value="books">Books</option>
+                    <option value="clothes">Clothes</option>
+                </select>
+                <input type="text" placeholder="Item Details" required>
+                <button type="submit" class="button">Submit for Approval</button>
+            </form>
+        </section>
+
+        <!-- View and Manage Donation Details -->
+        <section id="viewPosts" class="container hidden">
+            <h2>Donation Details</h2>
+            <p><strong>Donation:</strong> Books for children</p>
+            <p><strong>Status:</strong> Chosen by Donor XYZ</p>
+            <button class="button">Acknowledge Donation</button>
+            <button class="button">Delete Post</button>
+        </section>
+    </div>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Here, handle the registration logic
+            alert('Registered Successfully!');
+            document.getElementById('registration').style.display = 'none';
+            document.getElementById('donationFunctions').style.display = 'block';
+        });
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.container').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+        }
+    </script>
+</body>
+</html>

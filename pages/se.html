@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+          
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header, section {
+            text-align: center;
+            margin: 20px;
+        }
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .hidden {
+            display: none;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Section -->
+    <section id="login">
+        <div class="container">
+            <h1>Login for Admins</h1>
+            <form id="loginForm">
+                <input type="text" placeholder="Username" required>
+                <input type="password" placeholder="Password" required>
+                <button type="submit" class="button">Login</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Admin Functions (Hidden until login) -->
+    <div id="adminFunctions" class="hidden">
+        <header>
+            <h1>Admin Dashboard</h1>
+            <button class="button" onclick="showSection('organizations')">View Organizations</button>
+            <button class="button" onclick="showSection('donors')">View Donors</button>
+            <button class="button" onclick="showSection('requests')">Manage Requests</button>
+            <button class="button" onclick="showSection('password')">Change Password</button>
+        </header>
+
+        <!-- View Organizations List -->
+        <section id="organizations" class="container hidden">
+            <h2>Organizations List</h2>
+            <!-- Dynamic list loading needed -->
+        </section>
+
+        <!-- View Donors List -->
+        <section id="donors" class="container hidden">
+            <h2>Donors List</h2>
+            <!-- Dynamic list loading needed -->
+        </section>
+
+        <!-- Manage Requests -->
+        <section id="requests" class="container hidden">
+            <h2>Manage Organization and Donor Requests</h2>
+            <!-- Interface to accept/reject requests -->
+        </section>
+
+        <!-- Password Management -->
+        <section id="password" class="container hidden">
+            <h2>Password Management</h2>
+            <form>
+                <input type="password" placeholder="New Password" required>
+                <button type="submit" class="button">Change Password</button>
+            </form>
+        </section>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Authentication logic goes here
+            document.getElementById('login').style.display = 'none';
+            document.getElementById('adminFunctions').style.display = 'block';
+        });
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.container').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+        }
+    </script>
+</body>
+</html>
