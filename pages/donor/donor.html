@@ -9,34 +9,84 @@
 <body>
     <div class="container">
         <h1>Donation System</h1>
-        <div class="registration">
-            <button onclick="openRegistrationForm()">Registration</button>
-        </div>
-        <div class="donation-requests">
-            <button onclick="viewDonationRequests()">View Donation Requests</button>
-        </div>
-        <div class="select-donation-items">
-            <button onclick="selectDonationItems()">Select Donation Items</button>
-        </div>
-        <div class="schedule-pickup">
-            <button onclick="schedulePickup()">Schedule Pickup</button>
-        </div>
-        <div class="view-eta">
-            <button onclick="viewETA()">View Estimated Time of Arrival</button>
-        </div>
-        <div class="receive-notification">
-            <button onclick="receiveNotification()">Receive Notification for Driver Arrival</button>
-        </div>
+        <form id="registrationForm" class="form" onsubmit="registerDonor(event)">
+            <div class="form-group">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" name="firstName" required>
+            </div>
+            <div class="form-group">
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" name="lastName" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select id="gender" name="gender" required>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="contactNumber">Contact Number:</label>
+                <input type="tel" id="contactNumber" name="contactNumber" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" id="address" name="address" required>
+            </div>
+            <div class="form-group">
+                <label for="area">Area:</label>
+                <input type="text" id="area" name="area" required>
+            </div>
+            <div class="form-group">
+                <label for="governorate">Governorate:</label>
+                <input type="text" id="governorate" name="governorate" required>
+            </div>
+            <div class="form-group">
+                <label for="role">Role:</label>
+                <select id="role" name="role" required>
+                    <option value="regular">Regular Donor</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="doctor">Doctor</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="document">Upload Document:</label>
+                <input type="file" id="document" name="document">
+            </div>
+            <!-- New fields for Clinic Location Specification -->
+            <div class="form-group">
+                <label for="clinicAddress">Clinic Address:</label>
+                <input type="text" id="clinicAddress" name="clinicAddress">
+            </div>
+            <div class="form-group">
+                <label for="clinicArea">Clinic Area:</label>
+                <input type="text" id="clinicArea" name="clinicArea">
+            </div>
+            <div class="form-group">
+                <label for="clinicGovernorate">Clinic Governorate:</label>
+                <input type="text" id="clinicGovernorate" name="clinicGovernorate">
+            </div>
+            <div class="form-group">
+                <label for="specialty">Specialty:</label>
+                <input type="text" id="specialty" name="specialty">
+            </div>
+            <div class="form-group">
+                <label for="proBonoCases">Pro-Bono Cases:</label>
+                <input type="number" id="proBonoCases" name="proBonoCases" min="0">
+            </div>
+            <!-- End of new fields -->
+            <button type="submit" class="button">Register</button>
+        </form>
     </div>
-
-    <div id="registrationForm" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeRegistrationForm()">&times;</span>
-            <!-- Registration form content -->
-        </div>
-    </div>
-
-    <!-- Other modals for donation requests, donation items, pickup scheduling, and ETA -->
 
     <script src="script.js"></script>
 </body>
