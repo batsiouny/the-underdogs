@@ -1,4 +1,5 @@
 // Function to register donor
+// Function to register donor
 function registerDonor(event) {
     event.preventDefault(); // Prevent form submission
     // Get form values (existing fields)
@@ -17,6 +18,8 @@ function registerDonor(event) {
     const subjects = document.getElementById('subjects').value;
     const proBonoClasses = document.getElementById('proBonoClasses').value;
     const proBonoStudents = document.getElementById('proBonoStudents').value;
+    // Get form values (new fields for View Requested Donation Items)
+    const donationItems = document.getElementById('donationItems').value;
 
     // Create FormData object to send form data
     const formData = new FormData();
@@ -34,8 +37,9 @@ function registerDonor(event) {
     formData.append('subjects', subjects);
     formData.append('proBonoClasses', proBonoClasses);
     formData.append('proBonoStudents', proBonoStudents);
+    // Append new field for View Requested Donation Items
+    formData.append('donationItems', donationItems);
 
-    // Optionally, you can send the form data to the server using AJAX or fetch
     // For now, let's just log the form data to the console
     console.log("Registration Form Data:");
     console.log("First Name:", firstName);
@@ -52,12 +56,96 @@ function registerDonor(event) {
     console.log("Subjects I can teach:", subjects);
     console.log("Pro-Bono Classes:", proBonoClasses);
     console.log("Pro-Bono Students:", proBonoStudents);
+    console.log("Requested Donation Items:", donationItems);
+
+    // Show registration complete message
+    showRegistrationCompleteMessage();
 }
+
+// Function to show registration complete message
+function showRegistrationCompleteMessage() {
+    const modal = document.getElementById('registrationCompleteModal');
+    modal.innerHTML = "<div class='modal-content'>Registration complete</div>";
+    modal.style.display = 'block';
+}
+
+// Function to show registration complete message
+function showRegistrationCompleteMessage() {
+    const modal = document.querySelector('.modal');
+    modal.innerHTML = "<div class='modal-content'>Registration complete</div>";
+    modal.style.display = 'block';
+}
+
+
+function showRequestedDonationItems() {
+    const modal = document.getElementById('requestedDonationModal');
+    modal.style.display = 'block';
+    // Display requested donation items
+    displayRequestedItems();
+}
+// Function to close requested donation modal
+function closeRequestedDonationModal() {
+    const modal = document.getElementById('requestedDonationModal');
+    modal.style.display = 'none';
+}
+
+// Function to display requested donation items
+function displayRequestedItems() {
+    const requestedDonationList = document.getElementById('requestedDonationList');
+    requestedDonationList.innerHTML = ''; // Clear previous items
+    const items = [
+        { name: "Food", quantity: 50 },
+        { name: "Clothing", quantity: 100 },
+        { name: "Medicines", quantity: 20 },
+        { name: "School Supplies", quantity: 30 }
+    ];
+    items.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.name}: ${item.quantity}`;
+        requestedDonationList.appendChild(li);
+    });
+}
+
+// Function to show registration complete message
+function showRegistrationCompleteMessage() {
+    const modal = document.getElementById('registrationCompleteModal');
+    modal.style.display = 'block';
+}
+function displayRequestedItems() {
+    const category = document.getElementById('category').value;
+    const requestedDonationList = document.getElementById('requestedDonationList');
+    requestedDonationList.innerHTML = ''; // Clear previous items
+    const items = [
+        { name: "Food", quantity: 50 },
+        { name: "Clothing", quantity: 100 },
+        { name: "Medicines", quantity: 20 },
+        { name: "School Supplies", quantity: 30 }
+    ];
+    const filteredItems = items.filter(item => item.name.toLowerCase() === category.toLowerCase());
+    filteredItems.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.name}: ${item.quantity}`;
+        requestedDonationList.appendChild(li);
+    });
+}
+// Function to show category selection dropdown
+function showCategorySelection() {
+    const dropdown = document.getElementById('categoryDropdown');
+    if (dropdown.style.display === 'block') {
+        dropdown.style.display = 'none';
+    } else {
+        dropdown.style.display = 'block';
+    }
+}
+
+// Function to select a donation category
+function selectCategory(category) {
+    alert("Selected category: " + category); // You can perform any action here, like storing the selected category in a variable or sending it to the server
+}
+
 
 // Function to close modal
 function closeModal() {
-    const modal = document.querySelector('.modal');
-    if (modal) {
-        modal.style.display = 'none';
-    }
+    const modal = document.getElementById('registrationCompleteModal');
+    modal.style.display = 'none';
 }

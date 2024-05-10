@@ -62,32 +62,83 @@
                 <label for="document">Upload Document:</label>
                 <input type="file" id="document" name="document">
             </div>
-            <!-- New fields for Clinic Location Specification -->
-            <div class="form-group">
-                <label for="clinicAddress">Clinic Address:</label>
-                <input type="text" id="clinicAddress" name="clinicAddress">
-            </div>
-            <div class="form-group">
-                <label for="clinicArea">Clinic Area:</label>
-                <input type="text" id="clinicArea" name="clinicArea">
-            </div>
-            <div class="form-group">
-                <label for="clinicGovernorate">Clinic Governorate:</label>
-                <input type="text" id="clinicGovernorate" name="clinicGovernorate">
-            </div>
-            <div class="form-group">
-                <label for="specialty">Specialty:</label>
-                <input type="text" id="specialty" name="specialty">
-            </div>
-            <div class="form-group">
-                <label for="proBonoCases">Pro-Bono Cases:</label>
-                <input type="number" id="proBonoCases" name="proBonoCases" min="0">
-            </div>
-            <!-- End of new fields -->
-            <button type="submit" class="button">Register</button>
-        </form>
-    </div>
+        </div>
+        <!-- New fields for Clinic Location Specification -->
+        <div class="form-group">
+            <label for="clinicAddress">Clinic Address:</label>
+            <input type="text" id="clinicAddress" name="clinicAddress">
+        </div>
+        <div class="form-group">
+            <label for="clinicArea">Clinic Area:</label>
+            <input type="text" id="clinicArea" name="clinicArea">
+        </div>
+        <div class="form-group">
+            <label for="clinicGovernorate">Clinic Governorate:</label>
+            <input type="text" id="clinicGovernorate" name="clinicGovernorate">
+        </div>
+        <div class="form-group">
+            <label for="specialty">Specialty:</label>
+            <input type="text" id="specialty" name="specialty">
+        </div>
+        <div class="form-group">
+            <label for="proBonoCases">Pro-Bono Cases:</label>
+            <input type="number" id="proBonoCases" name="proBonoCases" min="0">
+        </div>
+        <!-- End of new fields -->
 
-    <script src="script.js"></script>
+        <!-- New fields for Teaching Role Specification -->
+        <div class="form-group">
+            <label for="subjects">Subjects I can teach:</label>
+            <input type="text" id="subjects" name="subjects">
+        </div>
+        <div class="form-group">
+            <label for="proBonoClasses">Pro-Bono Classes:</label>
+            <input type="number" id="proBonoClasses" name="proBonoClasses" min="0">
+        </div>
+        <div class="form-group">
+            <label for="proBonoStudents">Pro-Bono Students:</label>
+            <input type="number" id="proBonoStudents" name="proBonoStudents" min="0">
+        </div>
+        <!-- End of new fields -->
+
+        <button type="submit" class="button">Register</button>
+        <div class="modal" id="requestedDonationModal">
+            <div class="modal-content">
+                <h2>Requested Donation Items</h2>
+                <ul id="requestedDonationList"></ul>
+            </div>
+
+    </form>
+</div>
+<div class="form-group">
+    <label for="category">Category:</label>
+    <select id="category" name="category">
+        <option value="food">Food</option>
+        <option value="clothing">Clothing</option>
+        <option value="medicines">Medicines</option>
+        <option value="schoolSupplies">School Supplies</option>
+    </select>
+    <button class="button" onclick="showRequestedDonationItems()">View Requested Donation Items</button>
+</div>
+
+<div class="form-group">
+    <label for="donationCategory">Choose Donation category:</label>
+    <select id="donationCategory" name="donationCategory" required>
+        <option value="clothes">clothes</option>
+        <option value="toys">toys</option>
+        <option value="food">food</option>
+        <option value = "medical-supplies"> medical supplies</option>
+        <option value= "school-supplies"> school supplies</option>
+        <option value = "blood-donations"> blood donations</option>
+    </select>
+</div>
+
+<div class="modal" id="registrationCompleteModal">
+    <div class="modal-content">
+    </div>
+</div>
+
+<script src="script.js"></script>
+
 </body>
 </html>
