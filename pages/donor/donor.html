@@ -112,6 +112,8 @@
             <button class="button" onclick="showSection('viewClothesRequests')">View Clothes Donation Requests</button>
             <button class="button" onclick="showSection('viewSchoolSuppliesRequests')">View School Supplies Donation Requests</button>
             <button class="button" onclick="showSection('viewBookRequests')">View Book Donation Requests</button>
+            <button class="button" onclick="showSection('viewToyRequests')">View Toy Donation Requests</button>
+            <button class="button" onclick="showSection('viewFoodRequests')">View Food Donation Requests</button>
         </header>
 
         <!-- Create Donation Post -->
@@ -173,6 +175,20 @@
                 <!-- Add more school supplies donation requests here -->
             </div>
         </section>
+        <!-- View Toy Donation Requests Section -->
+<!-- View Toy Donation Requests Section -->
+<section id="viewToyRequests" class="container hidden">
+    <h2>Toy Donation Requests</h2>
+    <!-- Search bar for toys -->
+    <input type="text" id="searchToys" placeholder="Search by Toy Name or Type">
+    <!-- Add a search button -->
+    <button onclick="searchToyRequests()" class="button">Search</button>
+    <div id="toyRequestsList" class="button-list">
+        <!-- Toy donation requests will be dynamically added here -->
+    </div>
+</section>
+
+
         <!-- View Book Requests Section -->
 <section id="viewBookRequests" class="container hidden">
     <h2>Book Donation Requests</h2>
@@ -255,6 +271,20 @@
         <button class="button" onclick="donateBooks()">Donate</button>
     </div>
 </div>
+<!-- Add a modal for displaying toy details -->
+<div id="toyRequestModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Toy Details</h2>
+        <p><strong>Name:</strong> <span id="toyName"></span></p>
+        <p><strong>Quantity:</strong> <span id="toyQuantity"></span></p>
+        <p><strong>Age Group:</strong> <span id="toyAgeGroup"></span></p>
+        <p><strong>Type:</strong> <span id="toyType"></span></p>
+        <label for="donateToyQuantity">Enter Quantity to Donate:</label>
+        <input type="number" id="donateToyQuantity" min="1" value="1" required>
+        <button class="button" onclick="donateToys()">Donate</button>
+    </div>
+</div>
     <!-- Add a modal for displaying school supplies item details -->
 <div id="schoolSuppliesItemModal" class="modal">
     <div class="modal-content">
@@ -265,6 +295,39 @@
         <label for="donateQuantity">Enter Quantity to Donate:</label>
         <input type="number" id="donateQuantity" min="1" value="1" required>
         <button class="button" onclick="donateSchoolSupplies()">Donate</button>
+    </div>
+</div>
+<!-- View Food Donation Requests Section -->
+<section id="viewFoodRequests" class="container hidden">
+    <h2>Food Donation Requests</h2>
+    <div>
+        <label for="foodCategory">Filter by Category:</label>
+        <select id="foodCategory">
+            <option value="">All</option>
+            <option value="fruits_vegetables">Fruits and Vegetables</option>
+            <option value="canned_foods">Canned Foods</option>
+            <option value="fresh_meals">Fresh Meals</option>
+            <option value="baked_goods">Baked Goods</option>
+        </select>
+    </div>
+    <button onclick="filterFoodRequests()" class="button">Apply Filter</button>
+    <div id="foodRequestsList" class="button-list">
+        <!-- Food donation request buttons will be dynamically added here -->
+    </div>
+</section>
+<!-- Food Item Details Modal -->
+<div id="foodItemModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Food Item Details</h2>
+        <div>
+            <p><strong>Name:</strong> <span id="foodName"></span></p>
+            <p><strong>Quantity:</strong> <span id="foodQuantity"></span></p>
+            <p><strong>Category:</strong> <span id="foodCategory"></span></p>
+        </div>
+        <label for="donateFoodQuantity">Quantity to Donate:</label>
+        <input type="number" id="donateFoodQuantity" min="1" value="1">
+        <button onclick="donateFood()" class="button">Donate</button>
     </div>
 </div>
     <script>
@@ -386,6 +449,18 @@ function showModal() {
 
 function closeModal() {
     var modal = document.getElementById("bookRequestModal");
+    modal.style.display = "none";
+}
+function showModal() {
+    var modal = document.getElementById("toyRequestModal");
+    modal.style.display = "block";
+}
+function showModal() {
+    var modal = document.getElementById("foodItemModal");
+    modal.style.display = "block";
+}
+function closeModal() {
+    var modal = document.getElementById("toyRequestModal");
     modal.style.display = "none";
 }
 
@@ -585,6 +660,163 @@ function showSection(sectionId) {
 // Function to show book donation requests section
 function showBookRequests() {
     showSection('viewBookRequests');
+}
+// Dummy toy donation requests data
+var toyRequests = [
+    { name: "LEGO Set", quantity: 15, ageGroup: "5-10", type: "Building Blocks" },
+    { name: "Barbie Doll", quantity: 10, ageGroup: "3-8", type: "Doll" },
+    { name: "Remote Control Car", quantity: 8, ageGroup: "8-12", type: "RC Car" },
+    { name: "Board Games", quantity: 20, ageGroup: "5-15", type: "Board Games" },
+    { name: "Teddy Bear", quantity: 12, ageGroup: "0-5", type: "Stuffed Animal" }
+];
+
+// Function to populate toy donation requests list
+function populateToyRequests() {
+    var toyRequestsList = document.getElementById('toyRequestsList');
+    toyRequestsList.innerHTML = ''; // Clear previous content
+
+    // Loop through toy donation requests and create buttons for each
+    toyRequests.forEach(function(request) {
+        var button = document.createElement('button');
+        button.classList.add('clothes-request');
+        button.textContent = request.name + " - Quantity: " + request.quantity;
+        button.onclick = function() {
+            showToyRequestDetails(request.name, request.quantity, request.ageGroup, request.type);
+        };
+        toyRequestsList.appendChild(button);
+    });
+}
+function showToyDetails(name, quantity, ageGroup, type) {
+    // Display the modal
+    showModal();
+
+    // Update modal content with toy details
+    document.getElementById("toyName").innerText = name;
+    document.getElementById("toyQuantity").innerText = quantity;
+    document.getElementById("toyAgeGroup").innerText = ageGroup;
+    document.getElementById("toyType").innerText = type;
+}
+
+
+// Call populateToyRequests() to initially populate the list
+populateToyRequests();
+
+function searchToyRequests() {
+    var searchQuery = document.getElementById('searchToys').value.toLowerCase();
+    var filteredToyRequests = toyRequests.filter(function(request) {
+        return request.name.toLowerCase().includes(searchQuery);
+    });
+    // Populate the toy requests list with the filtered results
+    var toyRequestsList = document.getElementById('toyRequestsList');
+    toyRequestsList.innerHTML = ''; // Clear previous content
+    filteredToyRequests.forEach(function(request) {
+        var button = document.createElement('button');
+        button.classList.add('clothes-request');
+        button.textContent = request.name + " - Quantity: " + request.quantity;
+        button.onclick = function() {
+            showToyRequestDetails(request.name, request.quantity, request.ageGroup, request.type);
+        };
+        toyRequestsList.appendChild(button);
+    });
+}
+
+// Function to show toy request details in a modal
+function showToyRequestDetails(name, quantity, ageGroup, type) {
+    document.getElementById("itemType").innerText = type;
+    document.getElementById("itemAge").innerText = ageGroup;
+    document.getElementById("itemQuantity").value = 1; // Reset quantity to 1
+    showModal();
+}
+
+// Function to show toy request details in a modal
+function showToyRequestDetails(name, type, quantity) {
+    // Display the modal
+    showModal();
+
+    // Update modal content with toy details
+    document.getElementById("toyName").innerText = name;
+    document.getElementById("toyType").innerText = type;
+    document.getElementById("toyQuantity").innerText = quantity;
+}
+
+// Function to handle toy donation
+function donateToys() {
+    var toyName = document.getElementById("toyName").innerText;
+    var toyQuantity = document.getElementById("donateToyQuantity").value;
+
+    // You can handle the donation logic here, such as sending the donation details to the server
+    alert("Thank you for donating " + toyQuantity + " " + toyName + "(s)!");
+    closeModal();
+}
+// Function to show toy donation requests section
+function showToyRequests() {
+    showSection('viewToyRequests');
+}
+
+// Define arbitrary food data
+var foodData = [
+    { name: "Apples", quantity: "50 KG", category: "Fruits and Vegetables" },
+    { name: "Canned Soup", quantity: "20 cans", category: "Canned Foods" },
+    { name: "Fresh Salad", quantity: "10 servings", category: "Fresh Meals" },
+    { name: "Bread", quantity: "30 loaves", category: "Baked Goods" },
+    // Add more food items as needed
+];
+
+// Function to show the food donation requests section
+function showFoodRequests() {
+        showSection('viewFoodRequests');
+    }
+    // Function to display food donation requests
+// Function to display food donation requests
+function displayFoodRequests() {
+    var foodRequestsList = document.getElementById('foodRequestsList');
+    foodRequestsList.innerHTML = ''; // Clear previous list
+
+    foodData.forEach(function(food) {
+        var button = document.createElement('button');
+        button.classList.add('food-request');
+        button.textContent = food.name;
+        button.setAttribute('data-quantity', food.quantity);
+        button.setAttribute('data-category', food.category);
+        button.addEventListener('click', function() {
+            showFoodItemDetails(food.name, food.quantity, food.category);
+        });
+        foodRequestsList.appendChild(button);
+    });
+}
+    // Function to filter food donation requests
+function filterFoodRequests(category) {
+    var foodRequests = document.querySelectorAll('.food-request');
+
+    foodRequests.forEach(function(food) {
+        var foodCategory = food.getAttribute('data-category');
+
+        if (category === 'All' || foodCategory === category) {
+            food.style.display = 'block';
+        } else {
+            food.style.display = 'none';
+        }
+    });
+}
+
+    // Function to show food item details in a modal
+    function showFoodItemDetails(name, quantity, category) {
+        // Display the modal
+        showModal();
+
+        // Update modal content with food item details
+        document.getElementById("foodName").innerText = name;
+        document.getElementById("foodQuantity").innerText = quantity;
+        document.getElementById("foodCategory").innerText = category;
+    }
+
+    // Function to handle food donation
+function donateFood() {
+    var foodName = document.getElementById("foodName").innerText;
+    var donatedQuantity = document.getElementById("donateFoodQuantity").value;
+
+    alert("Thank you for donating " + donatedQuantity + " of " + foodName + "!");
+    closeModal();
 }
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
