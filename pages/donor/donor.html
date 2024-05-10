@@ -2,143 +2,591 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donation System</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Donation Registration</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        header, .container {
+            text-align: center;
+            margin: 20px;
+        }
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .hidden {
+            display: none;
+        }
+        input, select, button {
+            margin: 10px 0;
+        }
+        #map {
+            height: 300px;
+            width: 100%;
+        }
+            .clothes-request {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-bottom: 10px;
+    }
+
+    .clothing-details-container {
+        border: 1px solid black;
+        padding: 10px;
+        margin-top: 20px;
+    }
+    .button-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.button-list .clothes-request {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Donation System</h1>
-        <form id="registrationForm" class="form" onsubmit="registerDonor(event)">
-            <div class="form-group">
-                <label for="firstName">First Name:</label>
-                <input type="text" id="firstName" name="firstName" required>
+    <!-- Registration Section -->
+    <section id="registration" class="container">
+        <h1>Donation Registration</h1>
+        <form id="registrationForm">
+            <input type="text" placeholder="First Name" required>
+            <input type="text" placeholder="Last Name" required>
+            <select required>
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            <input type="email" placeholder="Email" required>
+            <input type="password" placeholder="Password" required>
+            <input type="text" placeholder="Contact Number" required>
+            <input type="text" placeholder="Organization Name" required>
+            <input type="text" placeholder="Organization Type" required>
+            <input type="text" placeholder="Address" id="clinicAddress" required>
+            <input type="text" placeholder="Area" id="clinicArea" required>
+            <input type="text" placeholder="Governorate" id="clinicGovernorate" required>
+            <select id="volunteerRole" required>
+                <option value="">Select Volunteer Role</option>
+                <option value="regular_donor">Regular Donor</option>
+                <option value="teacher">Teacher</option>
+                <option value="doctor">Doctor</option>
+            </select>
+            <input type="text" placeholder="Specialty" id="clinicSpecialty" required>
+            <input type="number" placeholder="Pro-bono Cases" id="proBonoCases" required>
+            <input type="text" placeholder="Subjects I Can Teach" id="teachingSubjects" required>
+            <input type="number" placeholder="Pro-bono Classes" id="proBonoClasses" required>
+            <input type="number" placeholder="Pro-bono Students" id="proBonoStudents" required>
+            <div id="map"></div>
+            <input type="hidden" id="lat" name="lat" required>
+            <input type="hidden" id="lng" name="lng" required>
+            <button type="submit" class="button">Register</button>
+        </form>
+    </section>
+
+    <!-- Donation Post Section (Hidden until login) -->
+    <div id="donationFunctions" class="hidden">
+        <header>
+            <h1>Manage Donation Posts</h1>
+            <button class="button" onclick="showSection('createPost')">Create Donation Post</button>
+            <button class="button" onclick="showSection('viewPosts')">View Donation Details</button>
+            <button class="button" onclick="showSection('viewRequestedItems')">View Requested Donation Items</button>
+            <button class="button" onclick="showSection('viewClothesRequests')">View Clothes Donation Requests</button>
+            <button class="button" onclick="showSection('viewSchoolSuppliesRequests')">View School Supplies Donation Requests</button>
+            <button class="button" onclick="showSection('viewBookRequests')">View Book Donation Requests</button>
+        </header>
+
+        <!-- Create Donation Post -->
+        <section id="createPost" class="container hidden">
+            <h2>Create Donation Post</h2>
+            <form id="donationPostForm">
+                <select id="itemCategory" required>
+                    <option value="">Select Item Category</option>
+                    <option value="clothes">Clothes</option>
+                    <option value="toys">Toys</option>
+                    <option value="food">Food</option>
+                    <option value="medical_supplies">Medical Supplies</option>
+                    <option value="school_supplies">School Supplies</option>
+                    <option value="blood_donations">Blood Donations</option>
+                </select>
+                <input type="text" placeholder="Item Details" required>
+                <button type="submit" class="button">Submit for Approval</button>
+            </form>
+        </section>
+
+        <!-- View and Manage Donation Details -->
+        <section id="viewPosts" class="container hidden">
+            <h2>Donation Details</h2>
+            <p><strong>Donation:</strong> Books for children</p>
+            <p><strong>Status:</strong> Chosen by Donor XYZ</p>
+            <button class="button">Acknowledge Donation</button>
+            <button class="button">Delete Post</button>
+        </section>
+        
+        <!-- View Requested Donation Items -->
+        <section id="viewRequestedItems" class="container hidden">
+            <h2>Requested Donation Items</h2>
+            <input type="text" id="searchCategory" placeholder="Search by Category">
+            <button onclick="searchRequestedItems()" class="button">Search</button>
+            <div id="requestedItemsList" class="button-list">
+                <button class="clothes-request" onclick="showRequestedItemDetails('Books for Children')">Books for Children</button>
+                <button class="clothes-request" onclick="showRequestedItemDetails('Clothes for Winter')">Clothes for Winter</button>
+                <button class="clothes-request" onclick="showRequestedItemDetails('Money for marriage')">Money for marriage</button>
+                <button class="clothes-request" onclick="showRequestedItemDetails('Math classes')">Math classes</button>
+                <button class="clothes-request" onclick="showRequestedItemDetails('Food for ramadan')">Food for ramadan</button>
+                <button class="clothes-request" onclick="showRequestedItemDetails('children Toys')">Children Toys</button>
+                <!-- Add more requested items here -->
             </div>
-            <div class="form-group">
-                <label for="lastName">Last Name:</label>
-                <input type="text" id="lastName" name="lastName" required>
+        </section>
+        
+        <section id="viewSchoolSuppliesRequests" class="container hidden">
+            <h2>School Supplies Donation Requests</h2>
+            <!-- Search bar for school supplies -->
+            <input type="text" id="searchSchoolSupplies" placeholder="Search by Name or Quantity">
+            <!-- Add a search button -->
+            <button onclick="searchSchoolSuppliesRequests()" class="button">Search</button>
+            <div id="schoolSuppliesRequestsList" class="button-list">
+                <button class="clothes-request" data-name="Books" data-quantity="50" onclick="showSchoolSuppliesItemDetails('Books', 50)">Books</button>
+                <button class="clothes-request" data-name="Pencils" data-quantity="100" onclick="showSchoolSuppliesItemDetails('Pencils', 100)">Pencils</button>
+                <button class="clothes-request" data-name="Erasers" data-quantity="30" onclick="showSchoolSuppliesItemDetails('Erasers', 30)">Erasers</button>
+                <button class="clothes-request" data-name="Pens" data-quantity="80" onclick="showSchoolSuppliesItemDetails('Pens', 80)">Pens</button>
+                <button class="clothes-request" data-name="Backpacks" data-quantity="20" onclick="showSchoolSuppliesItemDetails('Backpacks', 20)">Backpacks</button>
+                <button class="clothes-request" data-name="Rulers" data-quantity="40" onclick="showSchoolSuppliesItemDetails('Rulers', 40)">Rulers</button>
+                <!-- Add more school supplies donation requests here -->
             </div>
-            <div class="form-group">
+        </section>
+        <!-- View Book Requests Section -->
+<section id="viewBookRequests" class="container hidden">
+    <h2>Book Donation Requests</h2>
+    <!-- Search bar for books -->
+    <input type="text" id="searchBooks" placeholder="Search by Book Name or Author">
+    <!-- Add a search button -->
+    <button onclick="searchBookRequests()" class="button">Search</button>
+    <div id="bookRequestsList" class="button-list">
+        <button class="clothes-request" data-name="Harry Potter" data-author="J.K. Rowling" data-language="English" data-edition="1st Edition" data-summary="A magical adventure" data-image="harry_potter.jpg" data-quantity="20" onclick="showBookRequestDetails('Harry Potter', 'J.K. Rowling', 'English', '1st Edition', 'A magical adventure', 'harry_potter.jpg', 20)">Harry Potter</button>
+        <button class="clothes-request" data-name="The Hobbit" data-author="J.R.R. Tolkien" data-language="English" data-edition="2nd Edition" data-summary="A fantasy classic" data-image="the_hobbit.jpg" data-quantity="15" onclick="showBookRequestDetails('The Hobbit', 'J.R.R. Tolkien', 'English', '2nd Edition', 'A fantasy classic', 'the_hobbit.jpg', 15)">The Hobbit</button>
+        <!-- Add more book donation requests here -->
+    </div>
+</section>
+
+        <!-- View Clothes Donation Requests -->
+        <section id="viewClothesRequests" class="container hidden">
+            <h2>Clothes Donation Requests</h2>
+            <div>
+                <label for="age">Age:</label>
+                <input type="number" id="age" min="0">
+            </div>
+            <div>
                 <label for="gender">Gender:</label>
-                <select id="gender" name="gender" required>
+                <select id="gender">
+                    <option value="">Select Gender</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <div class="form-group">
-                <label for="contactNumber">Contact Number:</label>
-                <input type="tel" id="contactNumber" name="contactNumber" required>
-            </div>
-            <div class="form-group">
-                <label for="password">Password:</label>
-                <input type="password" id="password" name="password" required>
-            </div>
-            <div class="form-group">
-                <label for="address">Address:</label>
-                <input type="text" id="address" name="address" required>
-            </div>
-            <div class="form-group">
-                <label for="area">Area:</label>
-                <input type="text" id="area" name="area" required>
-            </div>
-            <div class="form-group">
-                <label for="governorate">Governorate:</label>
-                <input type="text" id="governorate" name="governorate" required>
-            </div>
-            <div class="form-group">
-                <label for="role">Role:</label>
-                <select id="role" name="role" required>
-                    <option value="regular">Regular Donor</option>
-                    <option value="teacher">Teacher</option>
-                    <option value="doctor">Doctor</option>
+            <div>
+                <label for="season">Season:</label>
+                <select id="season">
+                    <option value="">Select Season</option>
+                    <option value="summer">Summer</option>
+                    <option value="winter">Winter</option>
+                    <option value="spring">Spring</option>
+                    <option value="autumn">Autumn</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label for="document">Upload Document:</label>
-                <input type="file" id="document" name="document">
+            <button onclick="filterClothesRequests()" class="button">Apply Filters</button>
+            <div id="clothesRequestsList">
+                <button class="clothes-request" data-age="32" data-gender="Male" data-season="Winter" onclick="showClothingItemDetails('Coat', '32', 'Male', 'Winter', 'Wool', 10)">Clothes for Winter</button>
+                <button class="clothes-request" data-age="12" data-gender="Male" data-season="Summer" onclick="showClothingItemDetails('T-shirt', '12', 'Male', 'Summer', 'Cotton', 20)">Summer Clothing</button>
+                <button class="clothes-request" data-age="11" data-gender="Female" data-season="Spring" onclick="showClothingItemDetails('Dress', '11', 'Female', 'Spring', 'Silk', 15)">Children's Clothing</button>
+                <button class="clothes-request" data-age="25" data-gender="Female" data-season="Summer" onclick="showClothingItemDetails('Wedding Dress', '25', 'Female', 'Summer', 'Satin', 5)">Wedding dress</button>
+                <button class="clothes-request" data-age="21" data-gender="Male" data-season="Summer" onclick="showClothingItemDetails('Suit', '21', 'Male', 'Summer', 'Linen', 7)">Wedding suit</button>
+                <!-- Add more clothes donation requests here -->
             </div>
+        </section>
+    </div>
+    <div id="clothingItemModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Clothing Item Details</h2>
+            <p><strong>Type:</strong> <span id="itemType"></span></p>
+            <p><strong>Age:</strong> <span id="itemAge"></span></p>
+            <p><strong>Gender:</strong> <span id="itemGender"></span></p>
+            <p><strong>Season:</strong> <span id="itemSeason"></span></p>
+            <p><strong>Material:</strong> <span id="itemMaterial"></span></p>
+            <label for="quantity">Quantity:</label>
+            <input type="number" id="itemQuantity" min="1" value="1" required>
+            <button class="button" onclick="donateClothing()">Donate</button>
         </div>
-        <!-- New fields for Clinic Location Specification -->
-        <div class="form-group">
-            <label for="clinicAddress">Clinic Address:</label>
-            <input type="text" id="clinicAddress" name="clinicAddress">
-        </div>
-        <div class="form-group">
-            <label for="clinicArea">Clinic Area:</label>
-            <input type="text" id="clinicArea" name="clinicArea">
-        </div>
-        <div class="form-group">
-            <label for="clinicGovernorate">Clinic Governorate:</label>
-            <input type="text" id="clinicGovernorate" name="clinicGovernorate">
-        </div>
-        <div class="form-group">
-            <label for="specialty">Specialty:</label>
-            <input type="text" id="specialty" name="specialty">
-        </div>
-        <div class="form-group">
-            <label for="proBonoCases">Pro-Bono Cases:</label>
-            <input type="number" id="proBonoCases" name="proBonoCases" min="0">
-        </div>
-        <!-- End of new fields -->
-
-        <!-- New fields for Teaching Role Specification -->
-        <div class="form-group">
-            <label for="subjects">Subjects I can teach:</label>
-            <input type="text" id="subjects" name="subjects">
-        </div>
-        <div class="form-group">
-            <label for="proBonoClasses">Pro-Bono Classes:</label>
-            <input type="number" id="proBonoClasses" name="proBonoClasses" min="0">
-        </div>
-        <div class="form-group">
-            <label for="proBonoStudents">Pro-Bono Students:</label>
-            <input type="number" id="proBonoStudents" name="proBonoStudents" min="0">
-        </div>
-        <!-- End of new fields -->
-
-        <button type="submit" class="button">Register</button>
-        <div class="modal" id="requestedDonationModal">
-            <div class="modal-content">
-                <h2>Requested Donation Items</h2>
-                <ul id="requestedDonationList"></ul>
-            </div>
-
-    </form>
-</div>
-<div class="form-group">
-    <label for="category">Category:</label>
-    <select id="category" name="category">
-        <option value="food">Food</option>
-        <option value="clothing">Clothing</option>
-        <option value="medicines">Medicines</option>
-        <option value="schoolSupplies">School Supplies</option>
-    </select>
-    <button class="button" onclick="showRequestedDonationItems()">View Requested Donation Items</button>
-</div>
-
-<div class="form-group">
-    <label for="donationCategory">Choose Donation category:</label>
-    <select id="donationCategory" name="donationCategory" required>
-        <option value="clothes">clothes</option>
-        <option value="toys">toys</option>
-        <option value="food">food</option>
-        <option value = "medical-supplies"> medical supplies</option>
-        <option value= "school-supplies"> school supplies</option>
-        <option value = "blood-donations"> blood donations</option>
-    </select>
-</div>
-
-<div class="modal" id="registrationCompleteModal">
+    </div>
+    <!-- Add a modal for displaying book details -->
+<div id="bookRequestModal" class="modal">
     <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>Book Details</h2>
+        <img id="bookImage" src="" alt="Book Cover" style="max-width: 100%; max-height: 200px;">
+        <p><strong>Title:</strong> <span id="bookTitle"></span></p>
+        <p><strong>Author:</strong> <span id="bookAuthor"></span></p>
+        <p><strong>Language:</strong> <span id="bookLanguage"></span></p>
+        <p><strong>Edition:</strong> <span id="bookEdition"></span></p>
+        <p><strong>Summary:</strong> <span id="bookSummary"></span></p>
+        <p><strong>Quantity:</strong> <span id="bookQuantity"></span></p>
+        <label for="donateBookQuantity">Enter Quantity to Donate:</label>
+        <input type="number" id="donateBookQuantity" min="1" value="1" required>
+        <button class="button" onclick="donateBooks()">Donate</button>
     </div>
 </div>
+    <!-- Add a modal for displaying school supplies item details -->
+<div id="schoolSuppliesItemModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h2>School Supplies Item Details</h2>
+        <p><strong>Name:</strong> <span id="schoolSuppliesItemName"></span></p>
+        <p><strong>Quantity:</strong> <span id="schoolSuppliesItemQuantity"></span></p>
+        <label for="donateQuantity">Enter Quantity to Donate:</label>
+        <input type="number" id="donateQuantity" min="1" value="1" required>
+        <button class="button" onclick="donateSchoolSupplies()">Donate</button>
+    </div>
+</div>
+    <script>
+        var map;
 
-<script src="script.js"></script>
+function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 0, lng: 0},
+        zoom: 8
+    });
+    var marker = new google.maps.Marker({
+        position: {lat: 0, lng: 0},
+        map: map,
+        draggable: true
+    });
 
+    marker.addListener('dragend', function(event) {
+        document.getElementById('lat').value = event.latLng.lat();
+        document.getElementById('lng').value = event.latLng.lng();
+    });
+}
+
+document.getElementById('registrationForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    var clinicAddress = document.getElementById('clinicAddress').value;
+    var clinicArea = document.getElementById('clinicArea').value;
+    var clinicGovernorate = document.getElementById('clinicGovernorate').value;
+    var clinicSpecialty = document.getElementById('clinicSpecialty').value;
+    var proBonoCases = document.getElementById('proBonoCases').value;
+    var volunteerRole = document.getElementById('volunteerRole').value;
+    var teachingSubjects = document.getElementById('teachingSubjects').value;
+    var proBonoClasses = document.getElementById('proBonoClasses').value;
+    var proBonoStudents = document.getElementById('proBonoStudents').value;
+    
+    if (clinicAddress === "" || clinicArea === "" || clinicGovernorate === "" || clinicSpecialty === "" || proBonoCases === "" || volunteerRole === "" || teachingSubjects === "" || proBonoClasses === "" || proBonoStudents === "") {
+        alert('Please fill in all fields.');
+        return;
+    }
+    
+    // Here, handle the registration logic
+    alert('Registered Successfully as ' + volunteerRole + '!');
+    document.getElementById('registration').style.display = 'none';
+    document.getElementById('donationFunctions').style.display = 'block';
+});
+
+document.getElementById('donationPostForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    var itemCategory = document.getElementById('itemCategory').value;
+    var itemDetails = document.getElementById('donationPostForm').querySelector('input[type="text"]').value;
+    
+    if (itemCategory === "") {
+        alert('Please select an item category.');
+        return;
+    }
+
+    // Here, handle the donation post creation logic
+    alert('Donation Post Created Successfully!');
+});
+
+function showSection(sectionId) {
+    document.querySelectorAll('.container').forEach(section => {
+        section.style.display = 'none';
+    });
+    document.getElementById(sectionId).style.display = 'block';
+}
+
+function filterClothesRequests() {
+    var age = document.getElementById('age').value;
+    var gender = document.getElementById('gender').value;
+    var season = document.getElementById('season').value;
+
+    // Select all clothes request buttons
+    var clothesRequests = document.querySelectorAll('.clothes-request');
+
+    // Loop through each button and hide/show based on filters
+    clothesRequests.forEach(function(request) {
+        var requestAge = request.getAttribute('data-age');
+        var requestGender = request.getAttribute('data-gender');
+        var requestSeason = request.getAttribute('data-season');
+
+        // Check if the request matches the filter criteria
+        if ((age === '' || requestAge === age) &&
+            (gender === '' || requestGender === gender) &&
+            (season === '' || requestSeason === season)) {
+            request.style.display = 'block'; // Show the request
+        } else {
+            request.style.display = 'none'; // Hide the request
+        }
+    });
+
+    // Inform the user about applied filters (optional)
+    alert('Applied filters: Age - ' + age + ', Gender - ' + gender + ', Season - ' + season);
+}
+
+
+
+function showModal() {
+    var modal = document.getElementById("clothingItemModal");
+    modal.style.display = "block";
+}
+
+function closeModal() {
+    var modal = document.getElementById("clothingItemModal");
+    modal.style.display = "none";
+}
+function showModal() {
+    var modal = document.getElementById("schoolSuppliesItemModal");
+    modal.style.display = "block";
+}
+
+function closeModal() {
+    var modal = document.getElementById("schoolSuppliesItemModal");
+    modal.style.display = "none";
+}
+function showModal() {
+    var modal = document.getElementById("bookRequestModal");
+    modal.style.display = "block";
+}
+
+function closeModal() {
+    var modal = document.getElementById("bookRequestModal");
+    modal.style.display = "none";
+}
+
+function showClothingItemDetails(type, age, gender, season, material, quantity) {
+    document.getElementById("itemType").innerText = type;
+    document.getElementById("itemAge").innerText = age;
+    document.getElementById("itemGender").innerText = gender;
+    document.getElementById("itemSeason").innerText = season;
+    document.getElementById("itemMaterial").innerText = material;
+    document.getElementById("itemQuantity").innerText = quantity;
+    showModal();
+}
+function donateClothing() {
+    var itemType = document.getElementById("itemType").innerText;
+    var itemAge = document.getElementById("itemAge").innerText;
+    var itemGender = document.getElementById("itemGender").innerText;
+    var itemSeason = document.getElementById("itemSeason").innerText;
+    var itemMaterial = document.getElementById("itemMaterial").innerText;
+    var itemQuantity = document.getElementById("itemQuantity").value;
+
+    // You can handle the donation logic here, such as sending the donation details to the server
+    alert("Thank you for donating " + itemQuantity + " " + itemType + "(s)!");
+    closeModal();
+}
+function showSchoolSuppliesItemDetails(type) {
+    // Implement logic to display details of the selected school supplies item
+    alert("a request for " + type + " has been made, any amount is appreciated !");
+
+}
+// Function to search requested items
+function searchRequestedItems() {
+    // Get the search query
+    var searchQuery = document.getElementById('searchCategory').value.toLowerCase();
+    
+    // Get all requested items buttons
+    var requestedItems = document.querySelectorAll('.clothes-request');
+
+    // If the search query is empty, show all requested items
+    if (searchQuery === "") {
+        requestedItems.forEach(function(item) {
+            item.style.display = 'block';
+        });
+        return; // Exit the function early if the search query is empty
+    }
+
+    // Loop through each item to check if it matches the search query
+    requestedItems.forEach(function(item) {
+        var itemName = item.textContent.toLowerCase(); // Get the item name
+
+        // If the item name contains the search query, show it; otherwise, hide it
+        if (itemName.includes(searchQuery)) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+// Function to search school supplies donation requests
+function searchSchoolSuppliesRequests() {
+    // Get the search query
+    var searchQuery = document.getElementById('searchSchoolSupplies').value.toLowerCase();
+
+    // Get all school supplies donation request buttons
+    var schoolSuppliesRequests = document.querySelectorAll('#schoolSuppliesRequestsList .clothes-request');
+
+    // If the search query is empty, show all school supplies donation requests
+    if (searchQuery === "") {
+        schoolSuppliesRequests.forEach(function(item) {
+            item.style.display = 'block';
+        });
+        return; // Exit the function early if the search query is empty
+    }
+
+    // Loop through each item to check if it matches the search query
+    schoolSuppliesRequests.forEach(function(item) {
+        var itemName = item.getAttribute('data-name').toLowerCase(); // Get the item name
+        var itemQuantity = item.getAttribute('data-quantity'); // Get the item quantity
+
+        // If the item name or quantity matches the search query, show it; otherwise, hide it
+        if (itemName.includes(searchQuery) || itemQuantity.includes(searchQuery)) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+// Function to show school supplies item details in a modal
+function showSchoolSuppliesItemDetails(name, quantity) {
+    // Display the modal
+    showModal();
+
+    // Update modal content with item details
+    document.getElementById("schoolSuppliesItemName").innerText = name;
+    document.getElementById("schoolSuppliesItemQuantity").innerText = quantity;
+}
+
+// Function to handle school supplies donation
+function donateSchoolSupplies() {
+    var itemName = document.getElementById("schoolSuppliesItemName").innerText;
+    var itemQuantity = document.getElementById("donateQuantity").value;
+
+    // You can handle the donation logic here, such as sending the donation details to the server
+    alert("Thank you for donating " + itemQuantity + " " + itemName + "(s)!");
+    closeModal();
+}
+// Function to show book request details in a modal
+function showBookRequestDetails(title, author, language, edition, summary, image, quantity) {
+    // Display the modal
+    showModal();
+
+    // Update modal content with book details
+    document.getElementById("bookImage").src = image;
+    document.getElementById("bookTitle").innerText = title;
+    document.getElementById("bookAuthor").innerText = author;
+    document.getElementById("bookLanguage").innerText = language;
+    document.getElementById("bookEdition").innerText = edition;
+    document.getElementById("bookSummary").innerText = summary;
+    document.getElementById("bookQuantity").innerText = quantity;
+}
+
+// Function to handle book donation
+function donateBooks() {
+    var bookTitle = document.getElementById("bookTitle").innerText;
+    var bookQuantity = document.getElementById("donateBookQuantity").value;
+
+    // You can handle the donation logic here, such as sending the donation details to the server
+    alert("Thank you for donating " + bookQuantity + " copies of " + bookTitle + "!");
+    closeModal();
+}
+
+// Function to search book donation requests
+function searchBookRequests() {
+    // Get the search query
+    var searchQuery = document.getElementById('searchBooks').value.toLowerCase();
+
+    // Get all book donation request buttons
+    var bookRequests = document.querySelectorAll('#bookRequestsList .clothes-request');
+
+    // If the search query is empty, show all book donation requests
+    if (searchQuery === "") {
+        bookRequests.forEach(function(item) {
+            item.style.display = 'block';
+        });
+        return; // Exit the function early if the search query is empty
+    }
+
+    // Loop through each item to check if it matches the search query
+    bookRequests.forEach(function(item) {
+        var itemName = item.getAttribute('data-name').toLowerCase(); // Get the item name
+        var itemAuthor = item.getAttribute('data-author').toLowerCase(); // Get the item author
+
+        // If the item name or author matches the search query, show it; otherwise, hide it
+        if (itemName.includes(searchQuery) || itemAuthor.includes(searchQuery)) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
+// Function to show book request details in a modal
+function showBookRequestDetails(title, author, language, edition, summary, image, quantity) {
+    // Display the modal
+    showModal();
+
+    // Update modal content with book details
+    document.getElementById("bookImage").src = image;
+    document.getElementById("bookTitle").innerText = title;
+    document.getElementById("bookAuthor").innerText = author;
+    document.getElementById("bookLanguage").innerText = language;
+    document.getElementById("bookEdition").innerText = edition;
+    document.getElementById("bookSummary").innerText = summary;
+    document.getElementById("bookQuantity").innerText = quantity;
+}
+
+// Function to handle book donation
+function donateBooks() {
+    var bookTitle = document.getElementById("bookTitle").innerText;
+    var bookQuantity = document.getElementById("donateBookQuantity").value;
+
+    // You can handle the donation logic here, such as sending the donation details to the server
+    alert("Thank you for donating " + bookQuantity + " copies of " + bookTitle + "!");
+    closeModal();
+}
+
+// Add a function to show book donation requests section
+function showSection(sectionId) {
+    document.querySelectorAll('.container').forEach(section => {
+        section.style.display = 'none';
+    });
+    document.getElementById(sectionId).style.display = 'block';
+
+    // Close the modal if it's open when switching sections
+    closeModal();
+}
+
+// Function to show book donation requests section
+function showBookRequests() {
+    showSection('viewBookRequests');
+}
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
 </body>
 </html>
