@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organization Dashboard</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #1ae9ec;
+            margin: 0;
+            padding: 0;
+        }
+        header, .container {
+            text-align: center;
+            margin: 20px auto;
+            max-width: 900px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            outline: none;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .hidden {
+            display: none;
+        }
+        input, select, button {
+            margin: 10px 0;
+        }
+        .notification-container {
+            margin-top: 20px;
+            padding: 20px;
+            max-width: 300px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .notification {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .notification p {
+            margin: 5px 0;
+        }
+        #map {
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Registration Section -->
+    <h1>Add Location</h1>
+    <button onclick="navigateToMap()">Add Location</button>
+    <button onclick="saveLocation()">Save Location</button>
+    <div id="map" class="hidden"></div>
+
+    <script>
+        function navigateToMap() {
+            // Navigate to map.html
+            window.location.href = "map.html";
+        }
+
+        // Your other JavaScript code goes here...
+    </script>
+
+    <section id="registration" class="container">
+        <h2>Organization Registration</h2>
+        <form id="registrationForm" action="success.html" method="GET">
+            <input type="text" name="firstName" placeholder="First Name" required>
+            <input type="text" name="lastName" placeholder="Last Name" required>
+            <select name="gender" required>
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="text" name="contactNumber" placeholder="Contact Number" required>
+            <input type="text" name="organizationName" placeholder="Organization Name" required>
+            <input type="text" name="organizationType" placeholder="Organization Type" required>
+            <input type="text" name="address" placeholder="Address" required>
+            <input type="text" name="area" placeholder="Area" required>
+            <input type="text" name="governate" placeholder="Governate" required>
+            <input type="file" required>
+            <button type="submit" class="button">Register</button>
+        </form>
+    </section>
+
+    <!-- Donation Post Section (Hidden until login) -->
+    <div id="donationFunctions" class="hidden">
+        <header>
+            <h1>Manage Donation Posts</h1>
+            <button class="button" onclick="showSection('createPost')">Create Donation Post</button>
+            <button class="button" onclick="showSection('viewPosts')">View Donation Details</button>
+            <button class="button" onclick="toggleNotifications()">Show/Hide Notifications</button>
+        </header>
+
+        <!-- Create Donation Post -->
+        <section id="createPost" class="container hidden">
+            <h2>Create Donation Post</h2>
+            <form>
+                <select required>
+                    <option value="">Select Item Category</option>
+                    <option value="books">Books</option>
+                    <option value="clothes">Clothes</option>
+                    <option value="Electrical Appliances">ElectricalAppliances</option>
+                </select>
+                <input type="text" placeholder="Item Details" required>
+                <button type="submit" class="button">Submit for Approval</button>
+            </form>
+        </section>
+
+        <!-- View and Manage Donation Details -->
+        <section id="viewPosts" class="container hidden">
+            <h2>Donation Details</h2>
+            <div class="donation-post">
+                <p><strong>Donation:</strong> Books for children</p>
+                <p><strong>Status:</strong> Chosen by Donor XYZ</p>
+                <button class="button" onclick="updateDonation()">Update</button>
+                <button class="button" onclick="deleteDonation()">Delete</button>
+                <button class="button" onclick="viewDonorDetails()">viewDonorDetails</button>
+            </div>
+
+        </section>
+        <!-- Update Donation Form (Hidden initially) -->
+    <div id="updateForm" class="notification-container hidden">
+    <h2>Update Donation Post</h2>
+    <form id="updateDonationForm">
+        <input type="text" placeholder="New Donation Name" required>
+        <input type="text" placeholder="New Status" required>
+        <button type="submit" class="button">Update Donation</button>
+    </form>
+</div>
+    </div>
+
+    <!-- Notification Section -->
+    <div class="notification-container hidden" id="notificationSection">
+        <button class="button" onclick="toggleNotifications()">Close Notifications</button>
+        <h2>Notifications</h2>
+        <div id="notifications"></div>
+    </div>
+
+    <!-- Pickup Form (Hidden initially) -->
+    <div id="pickupForm" class="notification-container hidden">
+        <h2>Coordinate Pickup</h2>
+        <form id="pickupForm">
+            <!-- Add input fields for location, time, date, etc. -->
+            <input type="text" placeholder="Location" required>
+            <input type="datetime-local" required>
+            <!-- Add more input fields as needed -->
+
+            <button type="submit" class="button">Submit</button>
+        </form>
+    </div>
+
+    <!-- Toggle Account Info Button -->
+    <button id="showAccountInfo" class="button hidden" onclick="toggleAccountInfo()">Show Account Info</button>
+
+    <!-- Account Information -->
+    <div id="accountInfo" class="notification-container hidden">
+        <h2>Account Information</h2>
+        <div id="accountDetails"></div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([51.505, -0.09], 13);
+        
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var marker;
+                // Function to add marker at clicked location
+                function addMarker(e) {
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            marker = L.marker(e.latlng).addTo(map);
+        }
