@@ -114,6 +114,7 @@
             <button class="button" onclick="showSection('viewBookRequests')">View Book Donation Requests</button>
             <button class="button" onclick="showSection('viewToyRequests')">View Toy Donation Requests</button>
             <button class="button" onclick="showSection('viewFoodRequests')">View Food Donation Requests</button>
+            <button onclick="showAllModals()">Show all modals</button>
         </header>
 
         <!-- Create Donation Post -->
@@ -242,7 +243,7 @@
     </div>
     <div id="clothingItemModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
+            <button onclick="closeModal('clothingItemModal')">Close</button>
             <h2>Clothing Item Details</h2>
             <p><strong>Type:</strong> <span id="itemType"></span></p>
             <p><strong>Age:</strong> <span id="itemAge"></span></p>
@@ -257,9 +258,8 @@
     <!-- Add a modal for displaying book details -->
 <div id="bookRequestModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
+        <button onclick="closeModal('bookRequestModal')">Close</button>
         <h2>Book Details</h2>
-        <img id="bookImage" src="" alt="Book Cover" style="max-width: 100%; max-height: 200px;">
         <p><strong>Title:</strong> <span id="bookTitle"></span></p>
         <p><strong>Author:</strong> <span id="bookAuthor"></span></p>
         <p><strong>Language:</strong> <span id="bookLanguage"></span></p>
@@ -274,7 +274,7 @@
 <!-- Add a modal for displaying toy details -->
 <div id="toyRequestModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
+        <button onclick="closeModal('toyRequestModal')">Close</button>
         <h2>Toy Details</h2>
         <p><strong>Name:</strong> <span id="toyName"></span></p>
         <p><strong>Quantity:</strong> <span id="toyQuantity"></span></p>
@@ -288,7 +288,7 @@
     <!-- Add a modal for displaying school supplies item details -->
 <div id="schoolSuppliesItemModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
+        <button onclick="closeModal('schoolSuppliesItemModal')">Close</button>
         <h2>School Supplies Item Details</h2>
         <p><strong>Name:</strong> <span id="schoolSuppliesItemName"></span></p>
         <p><strong>Quantity:</strong> <span id="schoolSuppliesItemQuantity"></span></p>
@@ -297,6 +297,7 @@
         <button class="button" onclick="donateSchoolSupplies()">Donate</button>
     </div>
 </div>
+<!-- View Food Donation Requests Section -->
 <!-- View Food Donation Requests Section -->
 <section id="viewFoodRequests" class="container hidden">
     <h2>Food Donation Requests</h2>
@@ -318,7 +319,7 @@
 <!-- Food Item Details Modal -->
 <div id="foodItemModal" class="modal">
     <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
+        <button onclick="closeModal('foodItemModal')">Close</button>
         <h2>Food Item Details</h2>
         <div>
             <p><strong>Name:</strong> <span id="foodName"></span></p>
@@ -423,47 +424,6 @@ function filterClothesRequests() {
 }
 
 
-
-function showModal() {
-    var modal = document.getElementById("clothingItemModal");
-    modal.style.display = "block";
-}
-
-function closeModal() {
-    var modal = document.getElementById("clothingItemModal");
-    modal.style.display = "none";
-}
-function showModal() {
-    var modal = document.getElementById("schoolSuppliesItemModal");
-    modal.style.display = "block";
-}
-
-function closeModal() {
-    var modal = document.getElementById("schoolSuppliesItemModal");
-    modal.style.display = "none";
-}
-function showModal() {
-    var modal = document.getElementById("bookRequestModal");
-    modal.style.display = "block";
-}
-
-function closeModal() {
-    var modal = document.getElementById("bookRequestModal");
-    modal.style.display = "none";
-}
-function showModal() {
-    var modal = document.getElementById("toyRequestModal");
-    modal.style.display = "block";
-}
-function showModal() {
-    var modal = document.getElementById("foodItemModal");
-    modal.style.display = "block";
-}
-function closeModal() {
-    var modal = document.getElementById("toyRequestModal");
-    modal.style.display = "none";
-}
-
 function showClothingItemDetails(type, age, gender, season, material, quantity) {
     document.getElementById("itemType").innerText = type;
     document.getElementById("itemAge").innerText = age;
@@ -485,10 +445,13 @@ function donateClothing() {
     alert("Thank you for donating " + itemQuantity + " " + itemType + "(s)!");
     closeModal();
 }
-function showSchoolSuppliesItemDetails(type) {
-    // Implement logic to display details of the selected school supplies item
-    alert("a request for " + type + " has been made, any amount is appreciated !");
+function donateSchoolSupplies() {
+    var itemName = document.getElementById("itemName").innerText;
+    var itemQuantity = document.getElementById("itemQuantity").innerText;
 
+    // You can handle the donation logic here, such as sending the donation details to the server
+    alert("Thank you for donating " + itemQuantity + " " + itemName + "(s)!");
+    closeModal();
 }
 // Function to search requested items
 function searchRequestedItems() {
@@ -549,12 +512,12 @@ function searchSchoolSuppliesRequests() {
 }
 // Function to show school supplies item details in a modal
 function showSchoolSuppliesItemDetails(name, quantity) {
-    // Display the modal
-    showModal();
-
+    
     // Update modal content with item details
     document.getElementById("schoolSuppliesItemName").innerText = name;
     document.getElementById("schoolSuppliesItemQuantity").innerText = quantity;
+    // Display the modal
+    showModal();
 }
 
 // Function to handle school supplies donation
@@ -568,17 +531,15 @@ function donateSchoolSupplies() {
 }
 // Function to show book request details in a modal
 function showBookRequestDetails(title, author, language, edition, summary, image, quantity) {
-    // Display the modal
-    showModal();
 
     // Update modal content with book details
-    document.getElementById("bookImage").src = image;
     document.getElementById("bookTitle").innerText = title;
     document.getElementById("bookAuthor").innerText = author;
     document.getElementById("bookLanguage").innerText = language;
     document.getElementById("bookEdition").innerText = edition;
     document.getElementById("bookSummary").innerText = summary;
     document.getElementById("bookQuantity").innerText = quantity;
+    showModal();
 }
 
 // Function to handle book donation
@@ -623,17 +584,15 @@ function searchBookRequests() {
 
 // Function to show book request details in a modal
 function showBookRequestDetails(title, author, language, edition, summary, image, quantity) {
-    // Display the modal
-    showModal();
 
     // Update modal content with book details
-    document.getElementById("bookImage").src = image;
     document.getElementById("bookTitle").innerText = title;
     document.getElementById("bookAuthor").innerText = author;
     document.getElementById("bookLanguage").innerText = language;
     document.getElementById("bookEdition").innerText = edition;
     document.getElementById("bookSummary").innerText = summary;
     document.getElementById("bookQuantity").innerText = quantity;
+    showModal();
 }
 
 // Function to handle book donation
@@ -730,13 +689,13 @@ function showToyRequestDetails(name, quantity, ageGroup, type) {
 
 // Function to show toy request details in a modal
 function showToyRequestDetails(name, type, quantity) {
-    // Display the modal
-    showModal();
 
     // Update modal content with toy details
     document.getElementById("toyName").innerText = name;
     document.getElementById("toyType").innerText = type;
     document.getElementById("toyQuantity").innerText = quantity;
+    // Display the modal
+    showModal();
 }
 
 // Function to handle toy donation
@@ -762,61 +721,91 @@ var foodData = [
     // Add more food items as needed
 ];
 
-// Function to show the food donation requests section
-function showFoodRequests() {
-        showSection('viewFoodRequests');
-    }
-    // Function to display food donation requests
-// Function to display food donation requests
-function displayFoodRequests() {
+// Function to populate food donation requests list
+function populateFoodRequests() {
     var foodRequestsList = document.getElementById('foodRequestsList');
-    foodRequestsList.innerHTML = ''; // Clear previous list
+    foodRequestsList.innerHTML = ''; // Clear previous content
 
+    // Loop through food donation requests and create buttons for each
     foodData.forEach(function(food) {
         var button = document.createElement('button');
         button.classList.add('food-request');
-        button.textContent = food.name;
-        button.setAttribute('data-quantity', food.quantity);
-        button.setAttribute('data-category', food.category);
-        button.addEventListener('click', function() {
-            showFoodItemDetails(food.name, food.quantity, food.category);
-        });
+        button.textContent = food.name + " - Quantity: " + food.quantity;
+        button.onclick = function() {
+            showFoodRequestDetails(food.name, food.quantity, food.category);
+        };
         foodRequestsList.appendChild(button);
     });
 }
-    // Function to filter food donation requests
-function filterFoodRequests(category) {
-    var foodRequests = document.querySelectorAll('.food-request');
 
-    foodRequests.forEach(function(food) {
-        var foodCategory = food.getAttribute('data-category');
+// Call populateFoodRequests() to initially populate the list
+populateFoodRequests();
 
-        if (category === 'All' || foodCategory === category) {
-            food.style.display = 'block';
-        } else {
-            food.style.display = 'none';
-        }
+function searchFoodRequests() {
+    var searchQuery = document.getElementById('searchFoods').value.toLowerCase();
+    var filteredFoodRequests = foodData.filter(function(food) {
+        return food.name.toLowerCase().includes(searchQuery);
+    });
+    // Populate the food requests list with the filtered results
+    var foodRequestsList = document.getElementById('foodRequestsList');
+    foodRequestsList.innerHTML = ''; // Clear previous content
+    filteredFoodRequests.forEach(function(food) {
+        var button = document.createElement('button');
+        button.classList.add('food-request');
+        button.textContent = food.name + " - Quantity: " + food.quantity;
+        button.onclick = function() {
+            showFoodRequestDetails(food.name, food.quantity, food.category);
+        };
+        foodRequestsList.appendChild(button);
     });
 }
 
-    // Function to show food item details in a modal
-    function showFoodItemDetails(name, quantity, category) {
-        // Display the modal
-        showModal();
+// Function to show food request details in a modal
+function showFoodRequestDetails(name, quantity, category) {
+    document.getElementById("foodType").innerText = category;
+    document.getElementById("foodName").innerText = name;
+    document.getElementById("foodQuantity").innerText = quantity;
+    document.getElementById("foodDonateQuantity").value = 1; // Reset quantity to 1
+    showModal();
+}
 
-        // Update modal content with food item details
-        document.getElementById("foodName").innerText = name;
-        document.getElementById("foodQuantity").innerText = quantity;
-        document.getElementById("foodCategory").innerText = category;
-    }
-
-    // Function to handle food donation
+// Function to handle food donation
 function donateFood() {
     var foodName = document.getElementById("foodName").innerText;
-    var donatedQuantity = document.getElementById("donateFoodQuantity").value;
+    var donatedQuantity = document.getElementById("foodDonateQuantity").value;
 
+    // You can handle the donation logic here, such as sending the donation details to the server
     alert("Thank you for donating " + donatedQuantity + " of " + foodName + "!");
     closeModal();
+}
+
+// Function to show food donation requests section
+function showFoodRequests() {
+    showSection('viewFoodRequests');
+}
+
+function closeModal(modalId) {
+    // Get the modal element by its ID
+    var modal = document.getElementById(modalId);
+
+    // Set the display style to 'none' to hide it
+    modal.style.display = 'none';
+}
+function showModal(modalId) {
+    // Get the modal element by its ID
+    var modal = document.getElementById(modalId);
+
+    // Set the display style to 'block' to show it
+    modal.style.display = 'block';
+}
+function showAllModals() {
+    // Get all modal elements by their class
+    var modals = document.getElementsByClassName('modal');
+
+    // Loop through all modals and set their display style to 'block'
+    for (var i = 0; i < modals.length; i++) {
+        modals[i].style.display = 'block';
+    }
 }
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap"></script>
