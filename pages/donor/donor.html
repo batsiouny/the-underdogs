@@ -4,23 +4,38 @@
     <meta charset="UTF-8">
     <title>Donation Registration</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+        .logo {
+    width: 10%; /* Adjust the width as necessary */
+    display: flex;
+    justify-content: left;
+    align-items: left;
+}
+
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to right, #74ebd5, #acb6e5);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
         header, .container {
             text-align: center;
             margin: 20px;
         }
-        .button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
+        button {
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
         .hidden {
             display: none;
         }
@@ -63,6 +78,9 @@
 }
 
     </style>
+    <div class="logo">
+    <img src="Screenshot 2024-05-12 223623.png" alt="Hope Waves Charity Logo" style="width: 100%;">
+</div>
 </head>
 <body>
     <!-- Registration Section -->
