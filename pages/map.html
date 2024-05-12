@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Location</title>
+    <!-- Include Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+
+    <!-- Include Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <style>
+        #map {
+            height: 400px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Add Location</h1>
+    <button onclick="addMarker()">Add Location</button>
+    <button onclick="saveLocation()">Save Location</button>
+    <div id="map"></div>
+
+    <script>
+        var map = L.map('map').setView([51.505, -0.09], 13);
+
+        // Add OpenStreetMap tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var marker;
+
+        // Function to add marker at clicked location
+        function addMarker(e) {
+            if (marker) {
+                map.removeLayer(marker);
+            }
+            marker = L.marker(e.latlng).addTo(map);
+        }
+
+        // Event listener to handle click on map
+        map.on('click', addMarker);
+
+        // Function to save the location
+        function saveLocation() {
+            if (marker) {
+                var lat = marker.getLatLng().lat;
+                var lng = marker.getLatLng().lng;
+                alert('Location saved: Latitude ' + lat + ', Longitude ' + lng);
+                 window.location.href = "tom.html";
+                // You can perform further actions here, such as saving to a database
+            } else {
+                alert('No location to save. Add a marker first.');
+            }
+        }
+    </script>
+</body>
+</html>
