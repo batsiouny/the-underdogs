@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Page</title>
+<style>
+    .logo {
+    width: 10%; /* Adjust the width as necessary */
+    display: flex;
+    justify-content: left;
+    align-items: left;
+}
+
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to right, #74ebd5, #acb6e5);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .container, .slideshow-container {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap; /* This will allow items to wrap if the screen is too small */
+    align-items: center;
+        width: 90%;
+        max-width: 1200px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+
+    .slide {
+        display: none; /* Hide all slides by default */
+        padding: 20px;
+        text-align: center;
+    }
+
+    .slide p {
+        font-family: 'Verdana', sans-serif;
+        font-size: 18px; /* Increased font size */
+        color: #333;
+    }
+
+    .login-card {
+        background-color: white;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        border-radius: 10px;
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .header {
+        font-family: 'Georgia', serif;
+        font-size: 24px;
+        color: #333;
+    }
+
+    input[type="text"], input[type="password"], button {
+        padding: 10px;
+        margin-top: 5px;
+    }
+
+    button {
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .login-inputs {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+    }
+</style>
+<div class="logo">
+    <img src="Screenshot 2024-05-12 223623.png" alt="Hope Waves Charity Logo" style="width: 100%;">
+</div>
+
+<script>
+    function toggleLogin(cardId) {
+        var inputs = document.getElementById(cardId).getElementsByClassName('login-inputs')[0];
+        if (inputs.style.display === 'none' || inputs.style.display === '') {
+            inputs.style.display = 'flex'; // Show login fields
+        } else {
+            inputs.style.display = 'none'; // Hide login fields
+        }
+    }
+
+    let slideIndex = 0; // to keep track of the current slide
+
+    function showSlides() {
+        let slides = document.getElementsByClassName("slide");
+        for (let i = 0; i < slides.length; i++) {
+            slides[i].style.display = "none";  
+        }
+        slideIndex++;
+        if (slideIndex > slides.length) {slideIndex = 1}    
+        slides[slideIndex-1].style.display = "block";  
+        setTimeout(showSlides, 3000); // Change slides every 3000 milliseconds (3 seconds)
+    }
+</script>
+</head>
+<body onload="showSlides()">
+<div class="slideshow-container">
+    <div class="slide">
+        <p>Welcome to our platform. Here you can manage your donations effectively.</p>
+    </div>
+    <div class="slide">
+        <p>Our admin section allows for detailed management and reporting.</p>
+    </div>
+    <div class="slide">
+        <p>Join our organization today and help make a difference in the community!</p>
+    </div>
+</div>
+<div class="container">
+    <div class="login-card" id="donor">
+        <h2 class="header">Donor</h2>
+        <button onclick="toggleLogin('donor')">I am a Donor!</button>
+        <div class="login-inputs">
+           
+            <button onclick="window.location.href='donor.html'">Login as Donor </button>
+        </div>
+    </div>
+    <div class="login-card" id="admin">
+        <h2 class="header">Admin</h2>
+        
+        <button onclick="toggleLogin('admin')">I am an Admin!</button>
+        <div class="login-inputs">
+            
+            <button onclick="window.location.href='admin.html'">Login as Admin </button>
+        </div>
+    </div>
+    <div class="login-card" id="organization">
+        <h2 the="header">Organization</h2>
+        <button onclick="toggleLogin('organization')">I am an Organization</button>
+        <div class="login-inputs">
+            
+            <button onclick="window.location.href='organization.html'">Login as Organization </button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
