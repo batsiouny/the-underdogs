@@ -154,3 +154,165 @@
                 </div>
             </div>
         </section>
+        <script>
+            // Add event listener to the delete buttons
+            function deleteOrganization(button) {
+                const organizationDiv = button.parentNode;
+                organizationDiv.remove();
+            }
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const orgSearchInput = document.getElementById('orgSearchInput');
+                const orgList = document.getElementById('orgList');
+
+                orgSearchInput.addEventListener('input', function() {
+                    const searchTerm = orgSearchInput.value.toLowerCase().trim();
+
+                    Array.from(orgList.children).forEach(org => {
+                        const orgName = org.querySelector('strong').textContent.toLowerCase();
+
+                        if (orgName.includes(searchTerm)) {
+                            org.style.display = 'block';
+                        } else {
+                            org.style.display = 'none';
+                        }
+                    });
+                });
+
+                var viewButtons = document.querySelectorAll('.view-details');
+                viewButtons.forEach(function(button) {
+                    button.addEventListener('click', function() {
+                        var detailsSection = button.nextElementSibling.nextElementSibling;
+                        detailsSection.classList.toggle('hidden');
+                    });
+                });
+            });
+        </script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var viewButtons = document.querySelectorAll('.view-details');
+                viewButtons.forEach(function(button) {
+                    button.addEventListener('click', function() {
+                        var detailsSection = button.nextElementSibling;
+                        detailsSection.classList.toggle('hidden');
+                    });
+                });
+            });
+        </script>
+
+        
+        
+        
+        
+         
+
+    
+
+
+        
+
+
+
+        
+        <!-- View Donors List -->
+        <section id="donors" class="container hidden">
+            <h2>Donors List</h2>
+            <p><strong>Youssef Niazy</strong></p>
+    <button class="button view-details">View Details</button>
+   
+    <section id="view1" class="details-container hidden">
+        <p>Phone Number: +20-01097634104</p>
+        <p>Address: Al rehab</p>
+        <p>Age : 20</p>
+    </section>
+
+    <p><strong> Youssef Eslam (Jota)</strong></p>
+    <button class="button view-details">View Details</button>
+    
+    <section id="view1" class="details-container hidden">
+        <p>Phone Number: +20-01153718881</p>
+        <p>Address: Oba Gardens</p>
+        <p>Age: 20</p>
+    </section>
+        </section>
+
+        <section id="OrgSubmissions" class="container hidden">
+            <h2>Organization Submissions</h2>
+            <p><strong>Donation:</strong> Books for children</p>
+            <p id="status"><strong>Status:</strong> Chosen by Donor XYZ</p>
+            <button class="button" onclick="handleDecision(this, 'Accepted')">Accept</button>
+            <button class="button" onclick="handleDecision(this, 'Rejected')">Reject</button>
+            <p id="decisionMessageOrg"></p>
+            
+        </section>
+    
+      
+
+        <!-- Manage Requests -->
+        <section id="requests" class="container hidden">
+            <h2>Manage Organization and Donor Requests</h2>
+            <p><strong>Donation:</strong> Books for children</p>
+            <p id="status"><strong>Status:</strong> Chosen by Donor XYZ</p>
+            <button class="button" onclick="handleDecision(this, 'Accepted')">Accept</button>
+            <button class="button" onclick="handleDecision(this, 'Rejected')">Reject</button>
+            <p id="decisionMessageReq"></p>
+            
+        </section>
+    
+      
+
+        <section id="DonSubmissions" class="container hidden">
+            <h2>Donor Submissions</h2>
+            <p><strong>Donation:</strong> Books for children</p>
+            <p id="status"><strong>Status:</strong> Chosen by Donor XYZ</p>
+            <button class="button" onclick="handleDecision(this, 'Accepted')">Accept</button>
+            <button class="button" onclick="handleDecision(this, 'Rejected')">Reject</button>
+            <p id="decisionMessageDon"></p>
+            
+        </section>
+    
+        <script>
+            function handleDecision(element, decision) {
+                // Update the decision message in the same section
+                const section = element.parentNode;
+                const message = section.querySelector('p[id^="decisionMessage"]');
+                message.textContent = decision; // Display "Accepted" or "Rejected"
+                message.style.color = decision === 'Accepted' ? 'green' : 'red';
+                
+                // Hide buttons in the same section
+                section.querySelectorAll('.button').forEach(button => {
+                    button.style.display = 'none';
+                });
+            }
+        </script>
+
+
+        <!-- Password Management -->
+        <section id="password" class="container hidden">
+            <h2>Password Management</h2>
+            <form>
+                <input type="password" placeholder="New Password" required>
+                <button type="submit" class="button">Change Password</button>
+            </form>
+        </section>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Authentication logic goes here
+            document.getElementById('login').style.display = 'none';
+            document.getElementById('adminFunctions').style.display = 'block';
+        });
+
+        function showSection(sectionId) {
+            document.querySelectorAll('.container').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+        }
+    </script>
+</body>
+</html>
